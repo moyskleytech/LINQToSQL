@@ -7,6 +7,10 @@ namespace MoyskleyTech.LINQToSQL.Helper
 {
     public static class StringExtentions
     {
+        public static bool Like(this string s, string match)
+        {
+            return Like(s, match, true);
+        }
         public static bool Like(this string s, string match, bool CaseInsensitive = true)
         {
             //Nothing matches a null mask or null input string

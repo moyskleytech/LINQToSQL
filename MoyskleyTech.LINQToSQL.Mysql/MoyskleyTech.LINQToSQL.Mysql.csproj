@@ -28,7 +28,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\MoyskleyTech.LINQ\MoyskleyTech.LINQToSQL.csproj" />
+    <ProjectReference Include="..\MoyskleyTech.LINQToSQL\MoyskleyTech.LINQToSQL.csproj" />
   </ItemGroup>
 
 </Project>

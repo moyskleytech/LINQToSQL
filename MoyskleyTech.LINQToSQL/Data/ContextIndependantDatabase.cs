@@ -15,7 +15,6 @@ namespace MoyskleyTech.LINQToSQL.Data
 {
     public class ContextIndependantDatabase
     {
-        public static DatabaseProxy StaticProxy { get; set; }
         protected ContextIndependantDatabase(DatabaseProxy Proxy)
         {
             this.Proxy = Proxy;
@@ -68,11 +67,11 @@ namespace MoyskleyTech.LINQToSQL.Data
             Exec(createTable);
         }
 
-        private static (string Name, string Type, string Primary) GetElement(TableMapping map, KeyValuePair<string, string> path)
+        private (string Name, string Type, string Primary) GetElement(TableMapping map, KeyValuePair<string, string> path)
         {
             var element = map.DeclaringType.GetProperty(path.Key);
             var attribute = element.GetCustomAttributes(typeof(Data.DataColumnAttribute), false).OfType<DataColumnAttribute>().FirstOrDefault<DataColumnAttribute>();
-            return (attribute.Name, StaticProxy.GetTypeFor(element) + " ", (attribute.IsPrimary ? "PRIMARY KEY" : string.Empty) + (attribute.IsPrimary && attribute.IsAuto ? " " + StaticProxy.Auto(attribute.IsAuto) : string.Empty));
+            return (attribute.Name, Proxy.GetTypeFor(element) + " ", (attribute.IsPrimary ? "PRIMARY KEY" : string.Empty) + (attribute.IsPrimary && attribute.IsAuto ? " " + Proxy.Auto(attribute.IsAuto) : string.Empty));
         }
         public void Open()
         {
