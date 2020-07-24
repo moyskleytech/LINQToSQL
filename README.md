@@ -3,7 +3,7 @@
 This repo is an implementation for the LINQ to SQL pattern. It is separated in 4 projects :
 
 |Project|Function|
-|-----|
+|--|--|
 |MoyskleyTech.LINQToSQL | The main project, act as the LINQ to SQL layer|
 |MoyskleyTech.LINQToSQL.Mysql | Proxy around MYSQL connector|
 |MoyskleyTech.LINQToSQL.SQLITE | Proxy around |
