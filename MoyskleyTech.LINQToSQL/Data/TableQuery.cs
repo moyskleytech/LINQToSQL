@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -448,7 +449,7 @@ namespace MoyskleyTech.LINQToSQL.Data
 
         private void AddWhere(Expression pred)
         {
-            if (pred.Type != typeof(bool))
+            if(!(pred.Type.Is(typeof(SQL))||pred.Type == typeof(bool)))
                 throw new InvalidOperationException("pred");
             if (pred == null)
             {

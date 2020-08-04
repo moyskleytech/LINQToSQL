@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoyskleyTech.LINQToSQL.SQLite\MoyskleyTech.LINQToSQL.SQLite.csproj" />
+    <ProjectReference Include="..\MoyskleyTech.LINQToSQL\MoyskleyTech.LINQToSQL.csproj" />
+  </ItemGroup>
+
+</Project>
