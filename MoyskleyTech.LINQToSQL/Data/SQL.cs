@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Common;
+using System.Net;
 
 namespace MoyskleyTech.LINQToSQL.Data
 {
@@ -8,7 +10,6 @@ namespace MoyskleyTech.LINQToSQL.Data
         public static SQL FromString(string s) => new SQL(s);
         public string Command { get; set; }
         public override string ToString() => Command;
-
 
         public static implicit operator bool(SQL s)
         {

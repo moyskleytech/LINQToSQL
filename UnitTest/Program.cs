@@ -33,10 +33,14 @@ namespace UnitTest
             cmd = db.Ts.Named("k").Where(new SQL("not exists(select * from T t where t.ID = k.ID-1)"));
             Console.WriteLine(cmd.SQL.Command);
 
+
             foreach (var c in cmd.ToList())
             {
                 Console.WriteLine(c.ToString());
             }
+            bool b = new SQL("ID>0") & true;
+            cmd = db.Ts.Where(new SQL("ID>0")).Where((x)=>x.ID<5);
+            Console.WriteLine(cmd.SQL.Command);
         }
     }
 

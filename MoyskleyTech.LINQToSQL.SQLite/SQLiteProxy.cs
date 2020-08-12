@@ -43,7 +43,7 @@ namespace MoyskleyTech.LINQToSQL.SQLite
 
     internal class SQLiteConnectionProxy : DatabaseProxyConnection
     {
-        private SqliteConnection cn;
+        private readonly SqliteConnection cn;
 
         public SQLiteConnectionProxy(SqliteConnection cn)
         {
@@ -73,7 +73,7 @@ namespace MoyskleyTech.LINQToSQL.SQLite
 
     internal class SQLiteCommandProxy : DatabaseProxyCommand
     {
-        private SqliteCommand cmd;
+        private readonly SqliteCommand cmd;
 
         public SQLiteCommandProxy(SqliteCommand sqliteCommand)
         {
@@ -88,7 +88,6 @@ namespace MoyskleyTech.LINQToSQL.SQLite
         {
             get
             {
-                var txt = cmd.CommandText;
                 cmd.CommandText = "select last_insert_rowid();";
 
                 return (dynamic)cmd.ExecuteScalar();

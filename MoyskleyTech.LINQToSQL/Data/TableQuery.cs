@@ -152,7 +152,8 @@ namespace MoyskleyTech.LINQToSQL.Data
             {
                 throw new ArgumentNullException("predExpr");
             }
-            var pred = Expression.Constant(predExpr);
+            var pred =
+            Expression.Convert(Expression.Constant(predExpr),typeof(bool));
             var q = Clone<T>();
             q.AddWhere(pred);
             return q;
@@ -238,10 +239,12 @@ namespace MoyskleyTech.LINQToSQL.Data
 
             //throw new InvalidOperationException("Selector must yield DatabaseSource or anonymous type");
 
-            var join = new TableMapping();
-            join.DeclaringType = t;
-            join.TableSource = Table.TableSource;
-            join.Name = Table.Name;
+            var join = new TableMapping
+            {
+                DeclaringType = t,
+                TableSource = Table.TableSource,
+                Name = Table.Name
+            };
 
             var ret = Clone<R>();
             if (_where != null)
@@ -417,8 +420,7 @@ namespace MoyskleyTech.LINQToSQL.Data
 
             MemberExpression mem;
 
-            var unary = lambda.Body as UnaryExpression;
-            if (unary != null && unary.NodeType == ExpressionType.Convert)
+            if (lambda.Body is UnaryExpression unary && unary.NodeType == ExpressionType.Convert)
             {
                 mem = unary.Operand as MemberExpression;
             }
@@ -503,8 +505,10 @@ namespace MoyskleyTech.LINQToSQL.Data
             var body = lambdaExpression.Body;
             if (body is NewExpression newExpr)
             {
-                TableMapping join = new TableMapping();
-                join.DeclaringType = lambdaExpression.Type;
+                TableMapping join = new TableMapping
+                {
+                    DeclaringType = lambdaExpression.Type
+                };
                 if (join.DeclaringType.Is(typeof(Func<,,>)))
                 {
                     join.DeclaringType = join.DeclaringType.GetGenericArguments()[2];
@@ -565,12 +569,14 @@ namespace MoyskleyTech.LINQToSQL.Data
                 var member = mexpr.Member;
                 var type = member.DeclaringType;
                 var map = (type == left.DeclaringType) ? left : right;
-                TableMapping join = new TableMapping();
-                join.DeclaringType = lambdaExpression.Type;
-                join.TableSource = left.TableSource;
-                join.Name = left.Name;
+                TableMapping join = new TableMapping
+                {
+                    DeclaringType = lambdaExpression.Type,
+                    TableSource = left.TableSource,
+                    Name = left.Name,
 
-                join.NameForPath = new Dictionary<string, string>();
+                    NameForPath = new Dictionary<string, string>()
+                };
                 foreach (var kp in map.NameForPath)
                 {
                     if (kp.Key.StartsWith(member.Name + "."))
@@ -708,7 +714,6 @@ namespace MoyskleyTech.LINQToSQL.Data
         {
             if (_joinInner != null)
             {
-                List<string> vs = new List<string>();
                 if (_joinInnerKeySelector is LambdaExpression jinn && _joinOuterKeySelector is LambdaExpression jout)
                 {
                     _joinOuter.BuildSourceSQL(lst);//Table name | Table name join X on e
@@ -792,10 +797,8 @@ namespace MoyskleyTech.LINQToSQL.Data
             }
             if (expr is BlockExpression blk)
                 return CompileExpr(blk.Expressions[1], queryArgs, (MappingContext)((ConstantExpression)blk.Expressions[0]).Value);
-            if (expr is BinaryExpression)
+            if (expr is BinaryExpression bin)
             {
-                var bin = (BinaryExpression)expr;
-
                 var leftr = CompileExpr(bin.Left, queryArgs, ctx);
                 var rightr = CompileExpr(bin.Right, queryArgs, ctx);
 
@@ -828,9 +831,9 @@ namespace MoyskleyTech.LINQToSQL.Data
                 var operandExpr = ((UnaryExpression)expr).Operand;
                 var opr = CompileExpr(operandExpr, queryArgs, ctx);
                 var val = opr.Value;
-                if (val is bool)
+                if (val is bool v)
                 {
-                    val = !((bool)val);
+                    val = !v;
                 }
                 return new CompileResult
                 {
@@ -1016,12 +1019,12 @@ namespace MoyskleyTech.LINQToSQL.Data
                 //
                 // Work special magic for enumerables
                 //
-                if (val != null && val is IEnumerable && !(val is string) && !(val is IEnumerable<byte>))
+                if (val != null && val is IEnumerable enumerable && !(val is string) && !(val is IEnumerable<byte>))
                 {
                     var sb = new StringBuilder();
                     sb.Append("(");
                     var head = "";
-                    foreach (var a in (IEnumerable)val)
+                    foreach (var a in enumerable)
                     {
                         queryArgs.Add(a);
                         sb.Append(head);
