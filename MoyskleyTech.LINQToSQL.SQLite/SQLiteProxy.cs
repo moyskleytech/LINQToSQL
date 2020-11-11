@@ -23,6 +23,10 @@ namespace MoyskleyTech.LINQToSQL.SQLite
             var cn = new SqliteConnection(connectionString);
             return new SQLiteConnectionProxy(cn);
         }
+        public override string GetInsertInto(string table , bool ignore)
+        {
+            return "INSERT " + ( ( ignore ) ? " OR IGNORE " : " " ) + " INTO " + table + "(";
+        }
         public override string GetTypeFor(PropertyInfo element)
         {
             if (IsAny(element.PropertyType, typeof(bool), typeof(byte), typeof(short), typeof(int), typeof(long),
@@ -129,5 +133,6 @@ namespace MoyskleyTech.LINQToSQL.SQLite
             }
             cmd.CommandText = cmdText;
         }
+        
     }
 }

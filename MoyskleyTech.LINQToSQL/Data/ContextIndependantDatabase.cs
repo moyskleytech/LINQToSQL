@@ -514,7 +514,8 @@ namespace MoyskleyTech.LINQToSQL.Data
         public long Insert(string table, Dictionary<string, object> values, bool ignore = false, bool forceIdentify = false)
         {
             var cmd = CreateCommand("");
-            var requete = "INSERT " + ((ignore) ? "IGNORE " : " ") + " INTO " + table + "(";
+            var requete = Proxy.GetInsertInto(table , ignore);
+            
 
             if (Proxy.Provider == DBProvider.MSSQL && !forceIdentify)
             {

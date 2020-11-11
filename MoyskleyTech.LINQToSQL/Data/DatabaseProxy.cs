@@ -25,6 +25,11 @@ namespace MoyskleyTech.LINQToSQL.Data
         }
 
         public abstract string Auto(bool isAuto);
+
+        public virtual string GetInsertInto(string table , bool ignore)
+        {
+            return "INSERT " + ( ( ignore ) ? "IGNORE " : " " ) + " INTO " + table + "(";
+        }
     }
     public abstract class DatabaseProxyConnection
     {
