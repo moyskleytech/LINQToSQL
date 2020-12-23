@@ -110,6 +110,8 @@ namespace UnitTest
             Console.WriteLine(ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<DateTime?>("2020/10/11"));
             Console.WriteLine(ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<DateTime?>("MONDAY DEC 1010"));
             Console.WriteLine(ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<DateTime?>(null));
+            Console.WriteLine(ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<string>(null));
+            Console.WriteLine(ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<string>(1));
         }
     }
 

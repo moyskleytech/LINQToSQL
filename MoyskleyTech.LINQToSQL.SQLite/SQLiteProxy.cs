@@ -21,6 +21,7 @@ namespace MoyskleyTech.LINQToSQL.SQLite
         public override DatabaseProxyConnection Connect(string connectionString)
         {
             var cn = new SqliteConnection(connectionString);
+            
             return new SQLiteConnectionProxy(cn);
         }
         public override string GetInsertInto(string table , bool ignore)

@@ -22,14 +22,14 @@ foreach($d in (gci . -Directory))
         if(Test-Path $nugetPath)
         {
           Write-Output $nugetPath
-          dotnet nuget push "$nugetPath" --source "github"
+          #dotnet nuget push "$nugetPath" --source "github"
           dotnet nuget push "$nugetPath" -k "$($env:NUGET_API)" --source "nuget.org"
         }
         $nugetPath="bin/Release/$($d.Name).$version.nupkg"
         if(Test-Path $nugetPath)
         {
           Write-Output $nugetPath
-          dotnet nuget push "$nugetPath" --source "github" 
+          #dotnet nuget push "$nugetPath" --source "github" 
           dotnet nuget push "$nugetPath" -k "$($env:NUGET_API)" --source "nuget.org"
         }
     }

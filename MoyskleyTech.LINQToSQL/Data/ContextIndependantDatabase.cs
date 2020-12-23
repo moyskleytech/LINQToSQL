@@ -466,6 +466,8 @@ namespace MoyskleyTech.LINQToSQL.Data
                 var t = fieldType.GenericTypeArguments.First();
                 return ConvertDbToObject(value , t , null);
             }
+            else if( fieldType.IsClass || fieldType ==typeof(string))
+                return ConvertDbToObject(value , fieldType , null);
             else
                 return ConvertDbToObject(value , fieldType , FormatterServices.GetUninitializedObject(fieldType));
         }
