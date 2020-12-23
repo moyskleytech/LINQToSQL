@@ -1281,13 +1281,13 @@ namespace MoyskleyTech.LINQToSQL.Data
 
         public R Get<R>(string name)
         {
-            return Connection.ConvertDatabaseObjectToCLRObject<R>(GenerateCommand(name).ExecuteScalar());
+            return ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<R>(GenerateCommand(name).ExecuteScalar());
         }
         public R Get<R>(Expression<Func<T , R>> expr)
         {
             List<object> queryArgs = new List<object>();
             var compiled = CompileExpr(expr, queryArgs, new MappingContext(Table, ParentContext));
-            return Connection.ConvertDatabaseObjectToCLRObject<R>(GenerateCommand(compiled.CommandText , queryArgs).ExecuteScalar());
+            return ContextIndependantDatabase.ConvertDatabaseObjectToCLRObject<R>(GenerateCommand(compiled.CommandText , queryArgs).ExecuteScalar());
         }
 
         public TableQuery<T> Named(string v)
