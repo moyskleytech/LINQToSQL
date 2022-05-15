@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>Moyskley Tech. 2020</Copyright>
     <Description>LINQToSQL with Table generation abstraction layer to work on all databases. Proxy for MYSQL</Description>
@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/moyskleytech/LINQToSQL</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>LINQ,LINQToSQL</PackageTags>
-    <Version>1.0.10</Version>
+    <Version>1.0.11</Version>
   </PropertyGroup>
 
   <ItemGroup>
