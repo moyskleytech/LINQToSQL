@@ -53,18 +53,17 @@ namespace MoyskleyTech.LINQToSQL.Data
             }
             catch
             {
+                var cols = from path in map.NameForPath
+                           select GetElement(map, path);
+                var isMultiplePrimary = cols.Count((x) => x.Primary.Length > 0) > 1;
+
+                string createTable = "CREATE TABLE IF NOT EXISTS " + map.TableSource + "(";
+                createTable += string.Join(",", from t in cols select t.Name + " " + t.Type + " " + (isMultiplePrimary ? string.Empty : t.Primary));
+                if (isMultiplePrimary)
+                    createTable += ",PRIMARY KEY(" + string.Join(",", from t in cols where t.Primary.Length > 0 select t.Name) + ")";
+                createTable += ")";
+                Exec(createTable);
             }
-
-            var cols = from path in map.NameForPath
-                       select GetElement(map, path);
-            var isMultiplePrimary = cols.Count((x) => x.Primary.Length > 0) > 1;
-
-            string createTable = "CREATE TABLE IF NOT EXISTS " + map.TableSource + "(";
-            createTable += string.Join("," , from t in cols select t.Name + " " + t.Type + " " + ( isMultiplePrimary ? string.Empty : t.Primary ));
-            if ( isMultiplePrimary )
-                createTable += ",PRIMARY KEY(" + string.Join("," , from t in cols where t.Primary.Length > 0 select t.Name) + ")";
-            createTable += ")";
-            Exec(createTable);
         }
 
         private (string Name, string Type, string Primary) GetElement(TableMapping map , KeyValuePair<string , string> path)
